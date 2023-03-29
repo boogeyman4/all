@@ -1,0 +1,37 @@
+import tensorflow as tf
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Flatten
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import Activation
+import matplotlib.pyplot as plt
+
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+# Cast the records into float values
+x_train = x_train.astype('float32')
+x_test = x_test.astype('float32')
+# normalize image pixel values by dividing
+# by 255
+gray_scale = 255
+x_train /= gray_scale
+x_test /= gray_scale
+model = Sequential([
+    # reshape data to 28*28 rows
+    Flatten(input_shape=(28, 28)),
+    # dense layer 1
+    Dense(256, activation='sigmoid'),
+    # dense layer 2
+    Dense(128, activation='sigmoid'),
+    # output layer
+    Dense(10, activation='sigmoid'),
+])
+model.summary()
+# saving and loading the .h5 model
+
+# save model
+model.save_weights('MLPWeights.h5')
+print('Model Saved!')
+
+# load model
+savedModel = model.load_weights('MLPWeights.h5')
+print('Model Loaded!')
